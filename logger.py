@@ -23,6 +23,7 @@ class logger:
         self.write("start of log #",0)
         
         self.write(str(self.log_number),2)
+        self.write()
 
 
 
