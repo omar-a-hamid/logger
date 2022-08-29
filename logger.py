@@ -1,7 +1,7 @@
 import datetime
 
 
-class logger: 
+class logger: #intializes log file
 
     def __init__(self, path):
 
@@ -13,13 +13,19 @@ class logger:
         self.index_hash= self.file_str.rindex("#")
         self.index_eol = self.file_str.find('\\n',self.index_hash)
         
-        #TODO: try except, or if index eol = -1 ---> self.index_hash+1 : self.index_eol
-
-        self.log_number_str = self.file_str[self.index_hash+1 : self.index_eol]
-
-        self.log_number = int(self.log_number_str)+1
+    #TODO: try except, or if index eol = -1 ---> self.index_hash+1 : self.index_eol
+        try:
+            self.log_number_str = self.file_str[self.index_hash+1 : self.index_eol]
+        
+            self.log_number = int(self.log_number_str)+1
+        except:
+            self.log_number_str = self.file_str[self.index_hash+1 : self.index_eol-1]
+        
+            self.log_number = int(self.log_number_str)+1
 
         self.write()
+        self.write()
+
         self.write("start of log #",0)
         
         self.write(str(self.log_number),2)
@@ -27,7 +33,8 @@ class logger:
 
 
 
-    def write(self,log_data="",eol_flag=1): # 0 doesnt terminate with \n 2 doesnt start with time stamp nor adds eol
+    def write(self,log_data="",eol_flag=1): #prints data and time on every new line and terminat lines
+        # 0 doesnt terminate with \n, 2 doesnt start with time stamp nor adds eol
 
         if log_data == "":
 
@@ -52,6 +59,7 @@ class logger:
         self.write("end of log #",0)
         self.write(str(self.log_number),2)
         self.write()
+
         self.file.close()
 
     def readlines(self): 
